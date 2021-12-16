@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Text, TextInput, View, ImageBackground, ScrollView, Dimensions, TouchableOpacity, AsyncStorage, Alert} from "react-native";
+import {Picker} from '@react-native-community/picker';
 import { Calendar } from 'react-native-calendars';
-import { Modal } from 'react-native-modal';
 import OneGroup from "../components/oneGroup";
+import urls from "../env.js";
 
 const Groups =[
- {group_id:1, name:"田中家",},
- {group_id:2, name:"◯◯グループ"},
- {group_id:3, name:"××同好会"}
+ {id:1, name:"田中家",},
+ {id:2, name:"◯◯グループ"},
+ {id:3, name:"××同好会"}
  ]
 
 const Mypage =({navigation})=>{
@@ -16,22 +17,22 @@ const Mypage =({navigation})=>{
  getMyInfo();
  },[]);
 
+// const [selectedLanguage, setSelectedLanguage] = useState();
 const [myName, setMyName] = useState("");
 const getMyInfo = async()=>{
 const myName = await AsyncStorage.getItem("myName");
 setMyName(myName);
 };
 
-const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
-const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};
-const workout = {key: 'workout', color: 'green'};
+const onPressSchedule = async(dateInfo)=>{
+ AsyncStorage.setItem("Date", `${dateInfo}`);
+ navigation.navigate("ScheduleView");
+};
 
-const onSelectDate = (day) => {
-  console.log(day+"日が押されました");
-  return Alert.alert(
-    day+"日が押されました"
-  );
-}
+const onPressOneGroup = async(groupInfo)=>{
+  await AsyncStorage.setItem("groupName", `${groupInfo}`);
+  navigation.navigate("GroupView");
+ };
 
 const onPressLogoutBtn=()=>{
   Alert.alert(
@@ -51,39 +52,38 @@ const onPressLogoutBtn=()=>{
   navigation.navigate("LoginView");
  };
 
- const handleDayPress = (day) => {
-  alert("日付が押されました！")
-};
-
  return(
   <StyledView>
     <UserBox>
-      <UserName>田中</UserName>
+      <UserName>{myName}</UserName>
     </UserBox>
-      <MySchedule>
-       <Calendar
-        // current={'2021-10-30'}
-        // minDate={'2021-09-01'}
-        // maxDate={'2021-11-15'}
-        // onDayPress={(day) => {console.log(day+"日が押されました");}}
-        onDayPress={handleDayPress}
-        // onDayPress={console.log("日付が押されました！")}
-        // onDayLongPress={(day) => {console.log('selected day', day)}}
-        onPressArrowRight={addMonth =>console.log("矢印が押されました！")}
+       <MySchedule
+        // onDayPress={(day)=>{console.log("日付が押されました！");}}
+        onDayPress={onPressSchedule}
         markingType={'multi-dot'}
-        // markedDates={{
-        // 　'2021-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-        // 　'2021-10-26': {dots: [massage, workout], disabled: true}
-        // }}
         />
-      </MySchedule>
+    {/* <Picker
+     selectedValue={selectedLanguage}
+     onValueChange={(itemValue, itemIndex) =>
+     setSelectedLanguage(itemValue)
+     }>
+    <Picker.Item label="Java" value="java" />
+    <Picker.Item label="JavaScript" value="js" />
+    </Picker> */}
     <GroupBar>
       <GroupText>Group</GroupText>
+      {Groups.map(group=>{
+       return(
+        <OneGroup
+         key={group.id}
+         name={group.name}
+         onPress={() => {onPressOneGroup(group.name)}}/>
+       );
+      })}
     </GroupBar>
-
-    {/* <OneGroup
-     name="田中家"
-     onPress={() => {}}/> */}
+    <LogoutBtn onPress={onPressLogoutBtn} activeOpacity={0.8}>
+     <StyledText>Logout</StyledText>
+    </LogoutBtn>
   </StyledView>
  );
 };
@@ -103,9 +103,9 @@ const UserName = styled(Text)`
  margin-top: 10px;
  margin-left: 25px;
  `;
-const MySchedule = styled(Calendar)`
- height:360px;
- border:3px dotted #acd5e2;
+ const MySchedule = styled(Calendar)`
+ height:350px;
+ border:2px dotted #acd5e2;
  `;
 const GroupBar = styled(View)`
  width:100%;
@@ -121,5 +121,23 @@ const GroupText = styled(Text)`
  font-size: 18;
  margin-top: 15px;
  margin-left: 25px;
+ `;
+const LogoutBtn = styled(TouchableOpacity)`
+height:40px;
+width:${width-110};
+background-color:#F8F8FF	;
+border-radius:4px;
+margin:200px auto 0;
+opacity:1;
+shadow-color:#000000;
+shadow-offset:1px 1px;
+shadow-opacity:0.6;
+`;
+const StyledText = styled(Text)`
+ text-align:center;
+ font-weight:500;
+ font-size:25px;
+ color:#111111;
+ padding-top:3px;
  `;
 export default Mypage;

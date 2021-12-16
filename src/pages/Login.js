@@ -10,8 +10,9 @@ const Login =({navigation})=>{
  const onChangePassword = (text) => setPassword(text);
 
  const onPressLogin = async({})=>{
+  console.log("click LoginBtn");
   if(userName==""||password=="")return;
-  const response = await fetch(`${urls.api_server}api/users/session`,{
+  const response = await fetch(`${urls.api_server}/api/users/session`,{
    headers:{
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -19,6 +20,7 @@ const Login =({navigation})=>{
    method:"POST",
    body:JSON.stringify({name:userName, password:password}),
   });
+  console.log(response.status);
   if(response.status==200){
    const responseJSON = await response.json();
    const {id, name} = responseJSON.currentUser;
@@ -26,7 +28,6 @@ const Login =({navigation})=>{
    AsyncStorage.setItem("myId", `${id}`);
    AsyncStorage.setItem("myName",`${name}`);
    navigation.navigate("MypageView");
-
   }
  };
 
