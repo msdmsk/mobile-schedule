@@ -1,7 +1,7 @@
 import React from "react";
-import Navigator from "./src/pages/Navigator";
+import Login from "./src/pages/Login";
 console.disableYellowBox = true;
 
 export default function App(){
-　return <Navigator/>;
+　return <Login/>;
 }
