@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import {Text, TextInput, View, ImageBackground, Dimensions, TouchableOpacity, AsyncStorage, Picker} from "react-native";
-// import {Picker} from '@react-native-community/picker';
+import {Text, TextInput, View, ImageBackground, Dimensions, TouchableOpacity, AsyncStorage} from "react-native";
+import { Picker } from '@react-native-community/picker';
 import OneSchedule from "../components/oneSchedule";
-import urls from "../env.js";
 
 const Schedules = [
     {id:1, date:"2021.12.1",todo:"ジム", start:"10:00", end:"12:00"},

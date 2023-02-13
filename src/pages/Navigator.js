@@ -9,6 +9,7 @@ import Timeschedule from "./Timeschedule";
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
+import urls from "../env.js";
 
 class Navigator extends React.Component {
     render() {
@@ -17,6 +18,7 @@ class Navigator extends React.Component {
     }
   }
   export default Navigator;
+
 
 const UsersNavigator = createStackNavigator(
     {

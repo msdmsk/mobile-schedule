@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import {Text, TextInput, View, ImageBackground, Dimensions, TouchableOpacity, AsyncStorage, Picker} from "react-native";
+import {Text, TextInput, View, ImageBackground, Dimensions, TouchableOpacity, AsyncStorage} from "react-native";
+import { Picker } from "@react-native-community/picker";
 import urls from "../env.js";
 
 const Timeschedule =({navigation})=>{
@@ -133,7 +134,7 @@ const Start = styled(Picker)`
  height:80;
  width:200;
  `;
-const End = styled(Picker)`
+ const End = styled(Picker)`
  height:80;
  width:200;
  `;
